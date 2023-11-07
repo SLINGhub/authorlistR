@@ -98,17 +98,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Copy/paste following information into the text files found under <code>/data</code></li>
 </ul>
 <ol type="A">
-<li><p><code>author_names.txt</code>: List of author names in the desired order, succeeded with affiliations numbers. Authors should be separated by comma followed by a space or by a semicolon. Multiple affiliations must be separated by commas. Example:</p>
+<li><code>author_names.txt</code>: List of author names in the desired order, succeeded with affiliations numbers. Authors should be separated by comma followed by a space or by a semicolon. Multiple affiliations must be separated by commas. Example:</li>
+</ol>
 <blockquote class="blockquote">
 <pre><code>Clark1,2, H. Adams3, C. Baker8, E. Davis4,11, T. Evans5, O. Frank6, Y. Ghosh 10. K. Hills11, A. Irwin, J. Jones7, K. Klein1,12</code></pre>
-</blockquote></li>
-<li><p><code>author_affiliations</code>: List of affiliations, preceded with the number that is used in the author list (see A) to associate the authors with corresponding affiliations. Each affiliations needs to be a separated line.</p>
+</blockquote>
+<ol start="2" type="A">
+<li><code>author_affiliations</code>: List of affiliations, preceded with the number that is used in the author list (see A) to associate the authors with corresponding affiliations. Each affiliations needs to be a separated line.</li>
+</ol>
 <blockquote class="blockquote">
 <pre><code>1Starlight University
 2Quantum Institute of Technology
 3Horizon University</code></pre>
-</blockquote></li>
-</ol>
+</blockquote>
 <ul>
 <li><p>Run through the chunks of the notebook <code>authorlistR.qmd</code> in the folder <code>R</code></p></li>
 <li><p>Formatted output (Rich-Text Format files) of the updated author and affiliation lists can be found in the folder <code>output</code>, which can be opened in Word and other text editors.</p>
@@ -126,13 +128,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="note" class="level2">
 <h2 class="anchored" data-anchor-id="note">Note</h2>
-<p>This code does not check the data you provide and may crash if</p>
+<p>This code does not check the data you provide and may crash or output wrong data if formatting is not as expected. The author of this script will not accept any responsibility for rejected manuscripts:)</p>
 </section>
 <section id="contact" class="level2">
 <h2 class="anchored" data-anchor-id="contact">Contact</h2>
-<ul>
-<li>Bo Burla, Singapore Lipidomics Incubator, National University of Singapore (lsibjb @ nus.edu.sg)</li>
-</ul>
+<p>Bo Burla, Singapore Lipidomics Incubator, National University of Singapore (lsibjb @ nus.edu.sg)</p>
 </section>
 <section id="license" class="level2">
 <h2 class="anchored" data-anchor-id="license">License</h2>

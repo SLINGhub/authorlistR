@@ -18,25 +18,25 @@ install.packages(c("tidyverse", "here", "rtf"))
 
 ## Usage
 
-* Copy/paste following information into the text files found under `/data`
+-   Copy/paste following information into the text files found under `/data`
 
 A)  `author_names.txt`: List of author names in the desired order, succeeded with affiliations numbers. Authors should be separated by comma followed by a space or by a semicolon. Multiple affiliations must be separated by commas. Example:
 
-  > ```         
-  > Clark1,2, H. Adams3, C. Baker8, E. Davis4,11, T. Evans5, O. Frank6, Y. Ghosh 10. K. Hills11, A. Irwin, J. Jones7, K. Klein1,12
-  > ```
+> ```         
+> Clark1,2, H. Adams3, C. Baker8, E. Davis4,11, T. Evans5, O. Frank6, Y. Ghosh 10. K. Hills11, A. Irwin, J. Jones7, K. Klein1,12
+> ```
 
 B)  `author_affiliations`: List of affiliations, preceded with the number that is used in the author list (see A) to associate the authors with corresponding affiliations. Each affiliations needs to be a separated line.
 
-  > ```         
-  > 1Starlight University
-  > 2Quantum Institute of Technology
-  > 3Horizon University
-  > ```
+> ```         
+> 1Starlight University
+> 2Quantum Institute of Technology
+> 3Horizon University
+> ```
 
-* Run through the chunks of the notebook `authorlistR.qmd` in the folder `R`
+-   Run through the chunks of the notebook `authorlistR.qmd` in the folder `R`
 
-* Formatted output (Rich-Text Format files) of the updated author and affiliation lists can be found in the folder `output`, which can be opened in Word and other text editors.
+-   Formatted output (Rich-Text Format files) of the updated author and affiliation lists can be found in the folder `output`, which can be opened in Word and other text editors.
 
     `new_authorlist_utf8.rtf`:
 
