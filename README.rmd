@@ -1,0 +1,63 @@
+### authorlistR
+
+# Re-number and sort affiliations linked to author lists
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+This R script re-numbers affiliations of an author list.
+
+## Prerequisites
+
+Following CRAN packages must be installed in order to run the scripts: `tidyverse`, `here`, `r2rtf`
+
+``` r
+install.packages(c("tidyverse", "here", "rtf"))
+```
+
+## Usage
+
+* Copy/paste following information into the text files found under `/data`
+
+A)  `author_names.txt`: List of author names in the desired order, succeeded with affiliations numbers. Authors should be separated by comma followed by a space or by a semicolon. Multiple affiliations must be separated by commas. Example:
+
+  > ```         
+  > Clark1,2, H. Adams3, C. Baker8, E. Davis4,11, T. Evans5, O. Frank6, Y. Ghosh 10. K. Hills11, A. Irwin, J. Jones7, K. Klein1,12
+  > ```
+
+B)  `author_affiliations`: List of affiliations, preceded with the number that is used in the author list (see A) to associate the authors with corresponding affiliations. Each affiliations needs to be a separated line.
+
+  > ```         
+  > 1Starlight University
+  > 2Quantum Institute of Technology
+  > 3Horizon University
+  > ```
+
+* Run through the chunks of the notebook `authorlistR.qmd` in the folder `R`
+
+* Formatted output (Rich-Text Format files) of the updated author and affiliation lists can be found in the folder `output`, which can be opened in Word and other text editors.
+
+    `new_authorlist_utf8.rtf`:
+
+    > C.C. Clark^1,2^, H. Adams^3^, E. Davis^4,5^, BB. Baker^1,5,6^, Y. Ghosh^7,8^, T Evans^9^, F. Frank^10^, K. Hills^5^, A. Irwin^2^, J. Jones^11^, K. Klein^1,3,6,12^
+
+    `new_authorlist_utf8.rtf`:
+
+    > ^1^Starlight University
+    >
+    > ^2^Quantum Institute of Technology
+    >
+    > ^3^Horizon University
+
+## Note
+
+This code does not check the data you provide and may crash or output wrong data if formatting is not as expected. The author of this script will not accept any responsibility for rejected manuscripts:)
+
+## Contact
+
+Bo Burla, Singapore Lipidomics Incubator, National University of Singapore (lsibjb \@ nus.edu.sg)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

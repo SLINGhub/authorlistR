@@ -1,0 +1,114 @@
+---
+title: "Reorder authors and affiliations"
+format: html
+author: "Bo Burla"
+affiliation: "Singapore Lipidomics Incubator"
+---
+
+```{r}
+library(tidyverse)
+library(here)
+library(r2rtf)
+
+# Parse author list
+# ------------------------
+
+authors_raw <- read_file(here("data/author_names.txt"))
+
+# Replace all commas that separate authors with a semicolon, 
+# comma separating affiliations number are not affected
+authors_temp <- str_squish(str_replace_all(authors_raw, "((?<=\\d)(, )|;])", "; ")) 
+authors_temp <- str_remove_all(authors_raw, "[\r\n]")
+authors_temp <- str_replace_all(authors_temp, "((?<=\\d)(, )|;])", "; ") 
+authors <- str_replace_all(authors_temp, "[#*],", "")
+authors <- str_replace_all(authors, "(?<=[:alpha:])(?=\\d)", "_")
+authors <- str_replace_all(authors, ",", "_")
+
+d_authors_wide <- tibble( 
+  author_name_affilliation = unlist(strsplit(authors_temp,";")), 
+  author_name_affilliation_parsed = unlist(strsplit(authors,";")))
+
+d_authors_wide <- d_authors_wide |> 
+  mutate(author_rank = row_number(), .before = "author_name_affilliation") |> 
+  separate(col = author_name_affilliation_parsed, 
+           remove = TRUE, 
+           sep = "_", 
+           into = c("author_name", "affiliation_1", "affiliation_2", "affiliation_3", 
+                    "affiliation_4", "affiliation_5", "affiliation_6"),fill = "right") |> 
+  mutate(author_name = str_squish(author_name))
+
+d_authors <- d_authors_wide |> 
+  select(-author_name_affilliation) |> 
+  pivot_longer( cols = -author_rank:-author_name, names_to = "affiliation_count", values_to = "affiliation_number_origin") |> 
+  mutate(affiliation_number_origin = as.numeric(affiliation_number_origin)) |> 
+  drop_na()
+
+# Parse affiliations list
+# ------------------------
+
+affiliations_raw <- read_file(here("data/author_affiliations.txt"))
+
+affiliations <- str_replace_all(affiliations_raw, "(?<=\\d)(?=[:alpha:])", "_")
+
+d_affiliations <-
+  tibble(affiliation = unlist(strsplit(affiliations, "\n"))) |>
+  separate(col = affiliation, remove = TRUE, sep = "_",
+    into = c("affiliation_number_origin", "affiliation_name"),
+    extra = "merge") |> 
+  mutate(affiliation_number_origin = as.numeric(affiliation_number_origin)) |> 
+  drop_na()
+
+
+# Combine authors and affiliations 
+# --------------------------------
+ 
+d_authors_affiliations <- d_authors |> 
+  full_join(d_affiliations, by = "affiliation_number_origin") |> 
+  mutate(affiliation_number_origin = as.numeric(affiliation_number_origin)) |>
+  mutate(affiliation_name = as_factor(affiliation_name)) 
+
+# Get the new affiliation numbers
+# --------------------------------
+
+d_authors_affiliations_merged <- d_authors_affiliations |>
+  group_by(affiliation_name) |> 
+  mutate(affiliation_number_updated = cur_group_id(), 
+         .after = affiliation_number_origin) |> 
+  arrange(affiliation_number_updated) |> 
+  ungroup()
+
+d_final_author_list <- d_authors_affiliations_merged |>
+  arrange(author_rank) |> 
+  #left_join(d_authors_affiliations |> select(affiliation_number_origin, affiliation_number_updated)) |> 
+  select(author_rank, author_name, affiliation_count, affiliation_number_updated) |> 
+  pivot_wider(names_from = "affiliation_count", values_from = "affiliation_number_updated") |> 
+  unite(col = "new_affiliation_list", starts_with("affiliation_"),
+        na.rm = TRUE, sep = ",") |> 
+  rowwise() |> 
+  mutate(new_affiliation_list = glue::glue_collapse(sort(as.numeric(unlist(strsplit(new_affiliation_list, ",")))), sep = ",")) |> 
+  mutate(new_author_affiliation = str_c(author_name, "{^", new_affiliation_list, "}"))
+
+
+d_final_affiliation_list <- d_authors_affiliations_merged |> 
+  select(affiliation_number_updated,affiliation_name ) |> 
+  distinct() |> 
+  rowwise() |> 
+  mutate(affiliation_text = utf8Tortf(str_c("{^", affiliation_number_updated, "}", affiliation_name)))
+
+# Write updated lists to rich-text format text files 
+# --------------------------------------------------
+
+
+rtf_text <- r2rtf:::rtf_paragraph(
+  r2rtf:::rtf_text(
+    utf8Tortf(glue::glue_collapse(d_final_author_list$new_author_affiliation, sep = ", ", ))),
+  justification = c("l"))
+r2rtf:::write_rtf_para(rtf_text, here("output/new_authorlist_utf8.rtf"))
+
+rtf_text <- r2rtf:::rtf_paragraph(
+  r2rtf:::rtf_text(d_final_affiliation_list$affiliation_text),justification = c("l"))
+r2rtf:::write_rtf_para(rtf_text, here("output/new_affiliation_list_urf8.rtf"))
+
+
+```
+
