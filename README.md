@@ -27,7 +27,7 @@ install.packages(c("tidyverse", "here", "r2rtf"))
     A. Irwin9, J. Jones7, K. Klein1,12
     ```
 
-2)   Copy/paste to `author_affiliations` the list of affiliations, preceded with the number that is used in the authorvlist (see 1) to associate the authors with corresponding affiliations. Each affiliations needs to be on a separated line.
+2)   Copy/paste to `author_affiliations.txt` the list of affiliations, preceded with the number that is used in the authorvlist (see 1) to associate the authors with corresponding affiliations. Each affiliations needs to be on a separated line.
 
     ```         
     1Starlight University
@@ -37,13 +37,9 @@ install.packages(c("tidyverse", "here", "r2rtf"))
 
 3) Run through the chunks of the notebook `authorlistR.qmd` in the folder `R`
 
-4) Formatted output (.rtf files) of the updated author and affiliation lists can be found in the folder `output`, which can be opened in Word and other text editors.
-
-`new_authorlist_utf8.rtf`
+4) Formatted output (.rtf files) of the updated author and affiliation lists can be found in the folder `output`, which can be opened in Word and other text editors. Examples:
 
 > C.C. Clark<sup>1,2</sup>, H. Adams <sup>3</sup>, E. Davis<sup>4,5</sup>, BB. Baker<sup>1,5,6</sup>, Y. Ghosh<sup>7,8</sup>, T Evans<sup>9</sup>, F. Frank<sup>10</sup>, K. Hills<sup>5</sup>, A. Irwin<sup>2</sup>, J. Jones<sup>11</sup>, K. Klein<sup>1,3,6,12</sup>
-
-`new_authorlist_utf8.rtf`
 
 > <sup>1</sup>Starlight University
 >
